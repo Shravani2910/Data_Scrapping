@@ -1,130 +1,124 @@
-# 📊 Multi-Source Data Scraping & Trust Scoring System
+# 🤖 AI Content Trust Analyzer
 
-## 🚀 Project Overview
+## 📌 Overview
 
-This project implements a multi-source data scraping pipeline that extracts structured content from blogs, YouTube videos, and PubMed articles. It enriches the data with metadata, performs topic tagging, and assigns a trust score based on reliability factors.
-
----
-
-## 🧠 Features
-
-* Scrapes data from:
-
-  * Blogs (HTML parsing)
-  * YouTube (transcripts)
-  * PubMed (scientific articles)
-* Extracts metadata:
-
-  * Author
-  * Published date
-  * Content
-* NLP Processing:
-
-  * Language detection
-  * Topic tagging (TF-IDF)
-  * Content chunking
-* Trust Scoring System (0–1 scale)
+This project is a multi-source data scraping and trust scoring system that extracts content from blogs, YouTube videos, and PubMed articles, processes it using NLP techniques, and evaluates its reliability.
 
 ---
 
-## 🏗️ Project Structure
+## 🚀 Features
 
-```
-project/
-├── scraper/
-├── scoring/
-├── utils/
-├── output/
-├── main.py
-```
+* Multi-source scraping (Blog, YouTube, PubMed)
+* Metadata extraction (author, date, etc.)
+* Automatic topic tagging
+* Language detection
+* Content chunking
+* Trust score calculation (0–1)
+* Streamlit web application
 
 ---
 
-## ⚙️ Tech Stack
+## 🧠 Tech Stack
 
 * Python
 * BeautifulSoup
 * YouTube Transcript API
-* Biopython (PubMed API)
-* Scikit-learn (TF-IDF)
-* Langdetect
+* Biopython
+* Scikit-learn
+* Streamlit
 
 ---
 
-## 📊 Trust Score Logic
+## 📂 Project Structure
 
-The trust score is calculated using:
+```
+scraper/
+utils/
+scoring/
+output/
+app.py
+main.py
+requirements.txt
+```
+
+---
+
+## ⚙️ How to Run
+
+### 1. Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+### 2. Run scraper
+
+```
+python main.py
+```
+
+### 3. Run Streamlit app
+
+```
+python -m streamlit run app.py
+```
+
+---
+
+## 📊 Trust Score Design
+
+The trust score is calculated using multiple factors:
 
 * Author credibility
-* Domain authority (.edu, .gov, PubMed)
+* Domain authority
 * Recency of content
-* Source type (scientific vs general)
 * Content quality
+* Source type reliability
 
-Final score is normalized between **0 and 1**.
+The final score is normalized between **0 and 1**.
 
 ---
 
 ## ⚠️ Edge Cases Handled
 
-* Missing metadata
-* No transcript available
-* Non-English content
-* Large content chunking
-* Empty or low-quality text
+* Missing author → penalty applied
+* Missing publish date → penalty applied
+* No transcript (YouTube) → fallback to description
+* Non-English content → processed using language detection
+* Long articles → handled using chunking
 
 ---
 
-## 🛡️ Abuse Prevention
+## 🔐 Abuse Prevention
 
-* Penalizes low-authority domains
-* Rewards verified sources (PubMed)
-* Recency-based decay
-* Handles missing or fake metadata
-
----
-
-## ▶️ How to Run
-
-```bash
-python -m venv venv
-venv\Scripts\activate   # Windows
-
-pip install -r requirements.txt
-python main.py
-```
+* Low-quality domains are penalized
+* Missing medical disclaimers reduce score
+* Outdated content receives lower scores
+* Suspicious or spam-like content is penalized
 
 ---
 
 ## 📁 Output
 
-Generated file:
+Data is stored in structured JSON files:
 
-```
-output/scraped_data.json
-```
-
-Contains structured data from all sources.
+* `blogs.json`
+* `youtube.json`
+* `pubmed.json`
 
 ---
 
-## 🚧 Limitations
+## 🌐 Streamlit App
+
+An interactive UI is provided to analyze content in real-time.
+
+https://datascrapping-d2ddirpnaxbs3epudqdhsg.streamlit.app/
+
+
+---
+
+## ⚡ Limitations
 
 * Some websites block scraping
-* YouTube metadata is limited
-* Basic trust scoring (heuristic-based)
-
----
-
-## 🌟 Future Improvements
-
-* Use LLMs for advanced tagging
-* Integrate domain authority APIs
-* Improve author credibility scoring
-* Add database storage (MongoDB)
-
----
-
-## 👩‍💻 Author
-
-Shravani 
+* Author data may not always be available
+* Citation count is approximated

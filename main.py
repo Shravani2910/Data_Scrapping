@@ -12,7 +12,33 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 import json
+import json
+import os
 
+os.makedirs("output", exist_ok=True)
+
+blogs = []
+youtube = []
+pubmed = []
+
+for item in all_data:
+    if item["source_type"] == "blog":
+        blogs.append(item)
+    elif item["source_type"] == "youtube":
+        youtube.append(item)
+    elif item["source_type"] == "pubmed":
+        pubmed.append(item)
+
+with open("output/blogs.json", "w") as f:
+    json.dump(blogs, f, indent=4)
+
+with open("output/youtube.json", "w") as f:
+    json.dump(youtube, f, indent=4)
+
+with open("output/pubmed.json", "w") as f:
+    json.dump(pubmed, f, indent=4)
+
+print("✅ Data saved in separate files")
 
 def process_content(data):
     """
