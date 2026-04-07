@@ -1,24 +1,27 @@
 def calculate_trust_score(data):
     score = 0
 
-    # Author credibility
-    if data['author'] and data['author'] != "Unknown":
-        score += 0.25
-
-    # Domain authority
-    if any(x in data['source_url'] for x in ["edu", "gov", "nih"]):
-        score += 0.25
-
-    # Recency
-    if "2023" in data['published_date'] or "2024" in data['published_date']:
+    # --- your existing logic ---
+    if data.get("author"):
         score += 0.2
 
-    # Source type boost
-    if data['source_type'] == "pubmed":
+    if data.get("published_date"):
         score += 0.2
 
-    # Content quality heuristic
-    if len(data.get("content_chunks", [])) > 5:
+    if data.get("source_type") == "pubmed":
+        score += 0.3
+    elif data.get("source_type") == "blog":
+        score += 0.2
+    else:
         score += 0.1
+
+    # --- ADD THESE INSIDE FUNCTION ---
+    citation_score = 0.2 if data.get("source_type") == "pubmed" else 0.05
+
+    text = " ".join(data.get("topic_tags", [])).lower()
+    medical_score = 0.1 if any(word in text for word in ["health", "medical", "disease"]) else 0
+
+    # --- FINAL SCORE ---
+    score += citation_score + medical_score
 
     return round(min(score, 1.0), 2)
